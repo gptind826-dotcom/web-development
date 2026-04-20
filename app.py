@@ -22,6 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Create directories
 os.makedirs("templates", exist_ok=True)
 os.makedirs("sites", exist_ok=True)
 os.makedirs("uploads", exist_ok=True)
@@ -229,11 +230,16 @@ async def delete_site(site_id: str):
 
 if __name__ == "__main__":
     import uvicorn
+    import os
+    
+    # Get PORT from environment variable (Render sets this)
+    port = int(os.environ.get("PORT", 10000))
+    
     print("\n" + "="*50)
-    print("🚀 WebHost Platform Started")
+    print("🚀 WebHost Platform Started on Render")
     print("="*50)
-    print("📍 Main Page: http://localhost:8000")
-    print("📍 Dashboard: http://localhost:8000/dashboard")
-    print("📍 Deploy: http://localhost:8000/deploy")
+    print(f"📍 Running on port: {port}")
     print("="*50 + "\n")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    
+    # Bind to 0.0.0.0 as required by Render
+    uvicorn.run(app, host="0.0.0.0", port=port)
